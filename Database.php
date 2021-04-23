@@ -52,4 +52,5 @@ class Database
     public function result() {}
     public function countRow() {}
 
+
 }
