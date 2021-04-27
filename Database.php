@@ -213,7 +213,7 @@ class Database
         return $this;
 
     }
-    
+
 
     /* Param: string $table
      * Description: Обновляет запись в базе
