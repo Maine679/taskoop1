@@ -8,6 +8,10 @@ class Config
      * Return: ? $result
      */
     public static function Get(string $param, array $arr) {
+
+        if(empty($param) || empty($arr))
+            return null;
+
         $keys = explode('.',$param);
 
         foreach ($keys as $key) {
