@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+
+
+
 require_once "class\Validate.php";
 require_once "class\Input.php";
 
@@ -17,7 +20,13 @@ require_once "class\Input.php";
 </head>
 <body>
     <div>
-        <? Validate::show_error(); ?>
+        <?
+        if(Validate::is_error()) {
+            Validate::show_error();
+        } else {
+            echo "passed";
+        }
+        ?>
     </div>
 
     <form action="action/action.php" method="get">
@@ -41,97 +50,5 @@ require_once "class\Input.php";
 
 </body>
 </html>
-
-
-
-
-<?php
-
-
-
-
-//$db = Database::GetExample()->query('SELECT * FROM users WHERE id>?',['20']);
-
-//['field'=>'id','criterion'=>'like','param'=>'1']
-//$db = Database::GetExample()->insert('users',['name'=>'testName']);
-//
-//if(!$db->error()) {
-//    echo "count row " . $db->countRow() . "<br>";
-//
-//    $users = $db->result();
-//
-//    foreach ($users as $user) {
-//        echo "name " . $user->name . "<br>";
-//    }
-//
-//}
-
-//
-//$GLOBALS['config'] = [
-//    'mysql' => [
-//        'host'=>'localhost',
-//        'username'=>'mysql',
-//        'password'=>'mysql',
-//        'database'=>'task2',
-//
-//        'something'=> [
-//            'no'=> [
-//                'foo'=> [
-//                    'bar'=>'baz'
-//                ]
-//            ]
-//        ]
-//    ],
-//    'data' => 'info'
-//];
-//
-//
-//echo Config::Get('mysql.something.no.foo.bar',$GLOBALS['config']);
-
-
-//
-//if(Input::exists()) {
-//    $validation = new Validate();
-
-
-
-
-
-
-
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

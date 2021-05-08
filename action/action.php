@@ -3,6 +3,18 @@ session_start();
 
 require_once "..\class\Input.php";
 require_once "..\class\Validate.php";
+//require_once "..\class\Config.php";
+
+//Данные для работы с бд
+$GLOBALS['config'] = [
+    'mysql' => [
+        'host'=>'localhost',
+        'username'=>'mysql',
+        'password'=>'mysql',
+        'database'=>'task2',
+    ],
+];
+
 
 
 if(Input::exists(Input::GET)) {
@@ -14,7 +26,7 @@ if(Input::exists(Input::GET)) {
             'username' => [
                 'required' => true,
                 'min' => 6,
-                'max' => 25,
+                'max' => 255,
                 'unique' => 'users'
             ],
             'password' => [

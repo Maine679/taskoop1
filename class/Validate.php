@@ -1,5 +1,8 @@
 <?php
+session_start();
 
+
+require_once "Database.php";
 
 class Validate
 {
@@ -7,13 +10,16 @@ class Validate
     /**
      * Для записи ошибок валидации.
      */
-    private static array $error = [''];
+    public static array $error = [];
 
-    public function __construct() {
-
+    /**
+     * Description: Получает ошибки возникшие во время исполнения скрипта.
+     * @param void
+     * @return array;
+     */
+    private static function get_error() :array {
+        return self::$error;
     }
-
-
     /**
      * Description: Записывает ошибки возникшие во время проверок.
      * @param string $error
@@ -31,7 +37,7 @@ class Validate
      */
     public static function is_error() :bool {
 
-        if(empty(self::$error)) {
+        if(empty(self::$error) && empty($_SESSION['error'])) {
             return false;
         }
         return true;
@@ -44,18 +50,22 @@ class Validate
      */
     public static function show_error() :void {
         //Если ошибок нет - выходим.
-//        if(!self::is_error())
-//            return;
+        if(!self::is_error() && empty($_SESSION['error']))
+            return;
 
-        var_dump(self::$error);
-
-        //Отображаем ошибки.
-        foreach (self::$error as $value) {
-            echo "{$value}<br>";
+        if(self::is_error()) {
+            //Отображаем ошибки.
+            foreach (self::$error as $value) {
+                echo "{$value}<br>";
+            }
         }
-
-//        self::$error = [];
-
+        //Здесь реализована передача через сессии так как ошибки не сохранялись.
+        if(!empty($_SESSION['error'])) {
+            //Отображаем ошибки.
+            foreach ($_SESSION['error'] as $value) {
+                echo "{$value}<br>";
+            }
+        }
     }
 
     /**
@@ -83,71 +93,46 @@ class Validate
                         break;
                     }
                     case 'min': {
-                        if(strlen($param[$item]) < $value) {
-                            self::set_error("Поле {$item} должно быть не короче {$value} символов.");
+                        if (!empty($param[$item])) {
+                            if (strlen($param[$item]) < $value) {
+                                self::set_error("Поле {$item} должно быть не короче {$value} символов.");
+                            }
                         }
                         break;
                     }
                     case 'max': {
-                        if(strlen($param[$item]) >= $value) {
-                            self::set_error("Поле {$item} должно быть не длинее {$value} символов.");
+                        if (!empty($param[$item])) {
+                            if (strlen($param[$item]) >= $value) {
+                                self::set_error("Поле {$item} должно быть не длинее {$value} символов.");
+                            }
                         }
                         break;
                     }
                     case 'unique': {
+                        if (!empty($param[$item])) {
+                            if(!empty($value)) {
+                                Database::GetExample()->select($value,'*',[['field'=>'name','criterion'=>'=','param'=>$param[$item]]]);
+                                if(Database::GetExample()->countRow() > 0) {
+                                    self::set_error("Такой username уже используется, выберите другой.");
+                                }
+                            }
+
+                        }
                         break;
                     }
                     case 'matches': {
-                        if($param[$item] !== $param[$value]) {
-                            self::set_error("Поле {$item} должно совпадать с полем {$value}.");
+                        if (!empty($param[$item]) && !empty($param[$value])) {
+                            if ($param[$item] !== $param[$value]) {
+                                self::set_error("Поле {$item} должно совпадать с полем {$value}.");
+                            }
                         }
                         break;
                     }
                 }
             }
         }
+
+        unset($_SESSION['error']);
+        $_SESSION['error'] = self::get_error();
     }
-
 }
-
-
-
-/*Поля не ищезают
- *
- * Правила валидации:
- *  свободное имя
- *  пароли совпадают
- *  длина больше указаннго количества
- *  если есть ошибки то мы их записываем
- *  Отображаем ошибки по требованию.
- */
-
-
-//    $validation->Check($_POST,
-//        [
-//            'username'=> [
-//                'required' => true,
-//                'min' => 6,
-//                'max' => 25,
-//                'unique' => 'users'
-//            ],
-//            'password'=> [
-//                'required' => true,
-//                'min' => 4
-//            ],
-//            'password_confirm' => [
-//                'required' => true,
-//                'matches' => 'password'
-//            ]
-//        ]
-//    );
-//
-//
-//
-//
-//
-//    if($validation->passed()) {
-//        echo "passed";
-//    }
-//
-//}

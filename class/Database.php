@@ -1,9 +1,10 @@
 <?php
 
+require_once "Config.php";
 
 class Database
 {
-    private $pdo;
+    private $pdo = null;
     private static $example = null;
 
     private $error = null;
@@ -11,14 +12,9 @@ class Database
     private $result;
     private $countRow;
 
-    //Заготовка, не придумал как оптимизировать функции, но этому не использовал.
-//    private const SELECT = 1;
-//    private const DELETE = 1;
-//    private const UPDATE = 1;
-//    private const INSERT = 1;
 
     private function __construct() {
-        $this->pdo = new PDO('mysql:host=localhost;dbname=task2','mysql','mysql');
+        $this->pdo = new PDO("mysql:host=" . Config::Get('mysql.host',$GLOBALS['config']) . ";dbname=" . Config::Get('mysql.database',$GLOBALS['config']),Config::Get('mysql.username',$GLOBALS['config']),Config::Get('mysql.password',$GLOBALS['config']));
     }
 
     /* Param: null
@@ -86,10 +82,10 @@ class Database
         if($count) {
 
             $query = $query . " WHERE ";
-
             //Цикл по параметрам.
             foreach ($arr as $item) {
                 if (in_array($item['criterion'], $operators)) {
+
                     $query = $query . " {$item['field']} {$item['criterion']} ?";
 
                     $params[] = $item['param']; //Добавляем параметр для передачи запросу Database::query.
@@ -99,7 +95,6 @@ class Database
                         $query = $query . ',';
                     else
                         $query = $query . ';';
-
 
                 } else { //Если что-то пошло не так, значит выкидываем с ошибкой.
                     $this->error = true;
@@ -124,6 +119,7 @@ class Database
      */
     public function select(string $table, string $selectField = "*",array $arr = []) :Database {
 //        ['field'=>'id','criterion'=>'like','param'=>'1']
+
 
         //Если не прописана таблица - то тут наши полномочия всё...
         if(!$table) {
