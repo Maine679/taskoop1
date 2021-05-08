@@ -2,10 +2,11 @@
 session_start();
 
 
-
-
 require_once "class\Validate.php";
 require_once "class\Input.php";
+require_once "class\Token.php";
+
+require_once "configuration.php";
 
 ?>
 <!DOCTYPE html>
@@ -41,6 +42,7 @@ require_once "class\Input.php";
         <div>
             <label for="password_confirm">password again</label>
             <input type="password" id="password_confirm" name="password_confirm">
+            <input hidden="hidden" type="password" id="token" name="token" value="<? echo Token::Generate(); ?>">
         </div>
         <div>
             <button type="submit">Зарегистрироваться</button>
