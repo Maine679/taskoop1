@@ -23,5 +23,4 @@ class Users
         $this->db->insert('users', $fields);
         return !$this->db->error();
     }
-
 }
