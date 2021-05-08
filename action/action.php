@@ -15,7 +15,7 @@ if(Input::exists(Input::GET)) {
         $name = Input::get('username', Input::GET);
         Input::set('username', $name);
 
-        Validate::Check($_GET,
+        $res = Validate::Check($_GET,
             [
                 'username' => [
                     'required' => true,
@@ -34,6 +34,10 @@ if(Input::exists(Input::GET)) {
             ]
 
         );
+
+        if($res)
+            Session::flash('success','Форма отправлена успешно.');
+
     } else {
         $_SESSION['error'] = ["Найдена попытка подделки сессии."];
     }

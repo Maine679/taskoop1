@@ -11,7 +11,9 @@ class Session
      * @return string
      */
     public static function get($key) :string {
-        return $_SESSION[$key];
+        if(self::exists($key))
+            return $_SESSION[$key];
+        return '';
     }
     /**
      * Description: Проверяет наличие данных сессии по ключу
@@ -46,11 +48,31 @@ class Session
      * true|false
      */
     public static function delete($key) :bool {
-        if(isset($_SESSION[$key])) {
+        if(self::exists($key)) {
             unset($_SESSION[$key]);
             return true;
         }
         return false;
+    }
+
+    /**
+     * Description: Функция для вывода и установки флеш сообщений.
+     * @param string $key
+     * Ключ по которому устанавливается и выводится сообщение.
+     * @param string $message
+     * Текст сообщения которого требуется отобразить.
+     * @return string|null
+     */
+    public static function flash(string $key, string $message = '') :?string {
+        if(self::exists($key) && $message == '') {
+            $message = self::get($key);
+            self::delete($key);
+            return $message;
+
+        } else {
+            self::put($key,$message);
+        }
+        return null;
     }
 
 

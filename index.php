@@ -25,7 +25,7 @@ require_once "configuration.php";
         if(Validate::is_error()) {
             Validate::show_error();
         } else {
-            echo "passed";
+            echo Session::flash('success');
         }
         ?>
     </div>

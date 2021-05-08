@@ -76,9 +76,10 @@ class Validate
      * @param array $checks
      * Массив содержащий условия для проверки
      *
-     * @return void
+     * @return bool
+     * true|false
      */
-    public static function Check(array $param,array $checks) :void {
+    public static function Check(array $param,array $checks) :bool {
 
         foreach ($checks as $item => $check) {
 
@@ -134,5 +135,7 @@ class Validate
 
         unset($_SESSION['error']);
         $_SESSION['error'] = self::get_error();
+
+        return !self::is_error();
     }
 }
