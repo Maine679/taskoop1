@@ -4,6 +4,7 @@ session_start();
 require_once "..\class\Input.php";
 require_once "..\class\Validate.php";
 require_once "..\class\Token.php";
+require_once "..\class\Users.php";
 
 require_once "..\configuration.php";
 
@@ -35,8 +36,18 @@ if(Input::exists(Input::GET)) {
 
         );
 
-        if($res)
+        if($res) {
+            $user = new Users();
+            $user->create(
+                [
+                    'name' => Input::get('username'),
+                    'password' => password_hash(Input::get('password'),PASSWORD_DEFAULT)
+                ]
+            );
+
+
             Session::flash('success','Форма отправлена успешно.');
+        }
 
     } else {
         $_SESSION['error'] = ["Найдена попытка подделки сессии."];

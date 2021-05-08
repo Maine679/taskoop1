@@ -204,8 +204,6 @@ class Database
 
         $this->query($query,$params);
 
-        var_dump($query);
-
         return $this;
 
     }
