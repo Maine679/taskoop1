@@ -112,9 +112,9 @@ class Validate
                     case 'unique': {
                         if (!empty($param[$item])) {
                             if(!empty($value)) {
-                                Database::GetExample()->select($value,'*',[['field'=>'name','criterion'=>'=','param'=>$param[$item]]]);
+                                Database::GetExample()->select($value,'*',[['field'=>'email','criterion'=>'=','param'=>$param[$item]]]);
                                 if(Database::GetExample()->countRow() > 0) {
-                                    self::set_error("Такой username уже используется, выберите другой.");
+                                    self::set_error("Такой {$item} уже используется, выберите другой.");
                                 }
                             }
 
@@ -125,6 +125,14 @@ class Validate
                         if (!empty($param[$item]) && !empty($param[$value])) {
                             if ($param[$item] !== $param[$value]) {
                                 self::set_error("Поле {$item} должно совпадать с полем {$value}.");
+                            }
+                        }
+                        break;
+                    }
+                    case 'email': {
+                        if (!empty($param[$item])) {
+                            if(!filter_var($param[$value],FILTER_VALIDATE_EMAIL)) {
+                                self::set_error("Поле {$item} должно быть корректным.");
                             }
                         }
                         break;

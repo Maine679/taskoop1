@@ -1,12 +1,6 @@
 <?php
 session_start();
-
-
-require_once "class\Validate.php";
-require_once "class\Input.php";
-require_once "class\Token.php";
-
-require_once "configuration.php";
+require_once "init.php";
 
 ?>
 <!DOCTYPE html>
@@ -34,6 +28,10 @@ require_once "configuration.php";
         <div>
             <label for="username">username</label>
             <input type="text" id="username" name="username" value="<? echo Input::get('username',Input::SESSION); ?>">
+        </div>
+        <div>
+            <label for="email">email</label>
+            <input type="email" id="email" name="email" value="<? echo Input::get('email',Input::SESSION); ?>">
         </div>
         <div>
             <label for="password">password</label>

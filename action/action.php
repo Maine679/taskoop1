@@ -19,11 +19,17 @@ if(Input::exists(Input::GET)) {
 
         $res = Validate::Check($_GET,
             [
-                'username' => [
+                'email' => [
                     'required' => true,
+                    'email' => true,
                     'min' => 6,
                     'max' => 255,
                     'unique' => 'users'
+                ],
+                'username' => [
+                    'required' => true,
+                    'min' => 2,
+                    'max' => 255
                 ],
                 'password' => [
                     'required' => true,
@@ -41,6 +47,7 @@ if(Input::exists(Input::GET)) {
             $user = new Users();
             $user->create(
                 [
+                    'email' => Input::get('email'),
                     'name' => Input::get('username'),
                     'password' => password_hash(Input::get('password'),PASSWORD_DEFAULT)
                 ]
