@@ -113,9 +113,26 @@ class Database
 //    DELETE FROM users
 //    UPDATE users SET
 
-    /* Param: string $table, string $selectField, array $param
-     * Description: Формирует запрос для выборки данных из бд, принимает название таблицы, поля для выборки, условия в виде двумерного асоциативного массива
+    /**
+
+     *
+     * @Param
+     *
      * Return: Database $example
+     */
+
+
+    /**
+     * Description: Формирует запрос для выборки данных из бд, принимает название таблицы, поля для выборки,
+     * условия в виде двумерного асоциативного массива
+     * @param string $table
+     * Имя таблицы в базе данных.
+     * @param string $selectField
+     * какие поля требуется получить, если * значит все.
+     * @param array $arr
+     * [['field'=> 'Наименование поля в бд','criterion'=>'Параметр сравнения','param'=>'значение для сравнения' ]]
+     * @return $this
+     * возвращает объект класса Database
      */
     public function select(string $table, string $selectField = "*",array $arr = []) :Database {
 //        ['field'=>'id','criterion'=>'like','param'=>'1']
@@ -131,7 +148,6 @@ class Database
 
         //Формируем базовый запрос.
         $query = "SELECT {$selectField} FROM {$table}";
-
         $query = $this->formatCondition($query,$arr,$params); //Использовал передачу по ссылке, не уверен что это самый безопастный способ.
 
         if(!empty($query)) {
@@ -164,6 +180,7 @@ class Database
         if(!empty($query)) {
             $this->query($query,$params);
         }
+
         return $this;
     }
 
@@ -201,11 +218,9 @@ class Database
         //Доформировываем запрос.
         $query = $query . $strValue;
 
-
         $this->query($query,$params);
 
         return $this;
-
     }
 
 

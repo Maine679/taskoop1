@@ -2,6 +2,12 @@
 session_start();
 require_once "init.php";
 
+if(Validate::is_error()) {
+    Validate::show_error();
+} else {
+    echo Session::flash('success');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,17 +20,10 @@ require_once "init.php";
 
 </head>
 <body>
-    <div>
-        <?
-        if(Validate::is_error()) {
-            Validate::show_error();
-        } else {
-            echo Session::flash('success');
-        }
-        ?>
+<div>
     </div>
 
-    <form action="action/action.php" method="get">
+    <form action="action/action_register.php" method="get">
         <div>
             <label for="username">username</label>
             <input type="text" id="username" name="username" value="<? echo Input::get('username',Input::SESSION); ?>">

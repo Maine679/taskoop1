@@ -131,7 +131,7 @@ class Validate
                     }
                     case 'email': {
                         if (!empty($param[$item])) {
-                            if(!filter_var($param[$value],FILTER_VALIDATE_EMAIL)) {
+                            if(!filter_var($param[$item],FILTER_VALIDATE_EMAIL)) {
                                 self::set_error("Поле {$item} должно быть корректным.");
                             }
                         }

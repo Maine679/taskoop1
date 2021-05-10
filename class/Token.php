@@ -12,7 +12,7 @@ class Token
      * @return string
      */
     public static function Generate() :string {
-        return Session::put(Config::Get('cookie.cookie_token',$GLOBALS['config']),md5(uniqid()));
+        return Session::put(Config::Get('session.session_token',$GLOBALS['config']),md5(uniqid()));
     }
 
     /**
@@ -26,7 +26,7 @@ class Token
         if(!isset($token))
             return false;
 
-        $key = Config::Get('cookie.cookie_token',$GLOBALS['config']);
+        $key = Config::Get('session.session_token',$GLOBALS['config']);
 
         if(Session::get($key) == $token) {
             Session::delete($key);

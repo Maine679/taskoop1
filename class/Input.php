@@ -20,16 +20,48 @@ class Input
      * Description: Проверяет пустой глобальный массив или нет
      * @return boolean
      */
-    public static function exists($type = Input::ALL) {
+    public static function exists($type = Input::ALL, $key = null) {
 
-        if($type == Input::ALL && (!empty($_GET) || !empty($_POST)))
-            return true;
-        else if($type == Input::GET && !empty($_GET))
-            return true;
-        else if($type == Input::POST && !empty($_POST))
-            return true;
-        else
-            return false;
+        if(is_null($key)) {
+
+            if ($type == Input::ALL && (!empty($_GET) || !empty($_POST)))
+                return true;
+            else if ($type == Input::GET && !empty($_GET))
+                return true;
+            else if ($type == Input::POST && !empty($_POST))
+                return true;
+
+            else
+                return false;
+        } else {
+            switch ($type) {
+                case self::ALL: {
+                    if(!empty($_SESSION[$key]))
+                        return true;
+                    else if(!empty($_GET[$key]))
+                        return true;
+                    else if(!empty($_POST[$key]))
+                        return true;
+                    return false;
+                }
+                case self::GET: {
+                    if(!empty($_GET[$key]))
+                        return true;
+                    return false;
+                }
+                case self::POST: {
+                    if(!empty($_POST[$key]))
+                        return true;
+                    return false;
+                }
+                case self::SESSION: {
+                    if(!empty($_SESSION[$key]))
+                        return true;
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     /* @param string $param
@@ -84,5 +116,4 @@ class Input
 
         return false;
     }
-
 }
