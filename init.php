@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once "class\Validate.php";
 require_once "class\Input.php";

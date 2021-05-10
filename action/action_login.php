@@ -4,8 +4,8 @@ require_once "action.php";
 if(Input::exists(Input::GET)) {
 
     if(Token::Check($_GET['token'])) {
-        $name = Input::get('email', Input::ALL);
-        Input::set('email', $name);
+        $email = Input::get('email', Input::ALL);
+        Input::set('email', $email);
 
         $remember = Input::exists(Input::ALL, 'remember');
         if($remember) {

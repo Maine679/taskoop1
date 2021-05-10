@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once "init.php";
 
 if (Validate::is_error()) {
@@ -12,6 +11,7 @@ $user = new Users();
 
 if($user->IsLoggedIn()) {
     echo "Hi, " . $user->Data()[0]->name . ", for logout click <a href='logout.php'>logout</a>";
+    echo "<div>Update user info <a href='update.php'>Update</a></div>";
 } else {
 ?>
 

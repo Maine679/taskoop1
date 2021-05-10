@@ -259,9 +259,6 @@ class Database
             $this->query($query,$params);
         }
 
-        var_dump($query);
-        var_dump($params);
-
         return $this;
     }
 
